@@ -210,6 +210,12 @@ Player.draw();
 Enemy.draw();
 console.log(Player);
 
+const soundArr=["hit.mp3","jump.mp3","run.mp3","Slash.mp3"];
+
+function PlaySound(n){
+  let audio = new Audio(`/sound/`+soundArr[n]);
+  audio.play();
+}
 //Call back de load lai man hinh tao hieu ung dong
 function animate() {
   window.requestAnimationFrame(animate);
@@ -270,21 +276,30 @@ function animate() {
   if(Player.isAttacking){
     if(Player.attack1){
       Player.switchsprites('attack1');
+      PlaySound(3);
     }
-    else Player.switchsprites('attack2');
+    else{
+    Player.switchsprites('attack2');
+    PlaySound(3);
+    }
   }
   //Enemy attack
   if(Enemy.isAttacking){
    if(Enemy.attack1){
     Enemy.switchsprites('attack1');
+    PlaySound(3);
    }
-  else Enemy.switchsprites('attack2');
+  else {
+    Enemy.switchsprites('attack2');
+    PlaySound(3);
+  }
   }
   // attack action
   if(Player.attackBox.position.x + Player.attackBox.width >= Enemy.position.x && Player.attackBox.position.x <= Enemy.position.x + Enemy.width && Player.attackBox.position.y + Player.attackBox.height >= Enemy.position.y && Player.attackBox.position.y <= Enemy.position.y + Enemy.height && Player.isAttacking){
     Enemy.health-=8;
     if(Player.health>0){
-      Enemy.switchsprites('takehit')
+      Enemy.switchsprites('takehit');
+      PlaySound(0);
     }
     else{
       Enemy.switchsprites('death');
@@ -299,7 +314,8 @@ function animate() {
   if(Enemy.attackBox.position.x + Enemy.attackBox.width >= Player.position.x && Enemy.attackBox.position.x <= Player.position.x + Player.width && Enemy.attackBox.position.y + Enemy.attackBox.height >= Player.position.y && Enemy.attackBox.position.y <= Player.position.y + Player.height && Enemy.isAttacking){
     Player.health-=8;
     if(Player.health>0){
-      Player.switchsprites('takehit')
+      Player.switchsprites('takehit');
+      PlaySound(0);
     }
     else{
       Player.switchsprites('death');
@@ -331,7 +347,7 @@ window.addEventListener("keydown", (event) => {
         Player.velocity.y = -20;
         setTimeout(()=>{
           Player.jumping==true;
-        },1000)
+        },4000)
       }
       break;
     case 'j':
