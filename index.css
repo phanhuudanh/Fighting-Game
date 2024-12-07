@@ -213,3 +213,59 @@ footer:hover{
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
+.baudio{
+    display: none;
+}
+.body{
+    position: relative;
+}
+.menu{
+    background-image: url(Menu.png);
+    background-size: cover;
+    height:508px;
+    position: absolute;
+    top:87px;
+    left:50px;
+    width:974px;
+    align-items: center;
+    display: none;
+    justify-content: center;
+}
+.disflex{
+    display: flex;
+}
+.button-play{
+    padding:30px 100px;
+    margin-top:80px;
+    background-color: transparent;
+    border:none;
+    cursor: pointer;
+}
+.button-music{
+    width:80px;
+    height:auto;
+    cursor: pointer;
+    border-radius: 50%;
+    position: absolute;
+    top:0px;
+    right:0px;
+}
+.mute{
+    display: none;
+    width:100%;
+    height:auto;
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: whitesmoke;
+}
+.muted{
+    display: none;
+    width:100%;
+    height:auto;
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: whitesmoke;
+}
+.disblock{
+    display: block;
+}

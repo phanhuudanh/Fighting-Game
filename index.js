@@ -6,6 +6,7 @@ canvas.height = 576;
 
 const gravity = 0.2;
 c.fillRect(50, 100, canvas.width, canvas.height);
+var menu=true;
 
 const background = new Sprite({
   position:{
@@ -44,17 +45,33 @@ function checkWin({Player, Enemy, timerID}){
   clearTimeout(timerID);
   if(Player.health===Enemy.health){
     document.querySelector('.tie').style.display="block";
+    setTimeout(()=>{
+      document.querySelector('.tie').style.display="none";
+      resetData();
+      menu.classList.add('disflex');
+    },3000);
   }
   if(Player.health>Enemy.health){
     document.querySelector('.pwin').style.display="block";
+    setTimeout(()=>{
+      document.querySelector('.pwin').style.display="none";
+      resetData();
+      menu.classList.add('disflex');
+    },3000);
   }
   if(Player.health<Enemy.health){
     document.querySelector('.ewin').style.display="block";
+    setTimeout(()=>{
+      document.querySelector('.ewin').style.display="none";
+      resetData();
+      menu.classList.add('disflex');
+    },3000);
   }
 }
 
+
 //Time
-let time=50;
+var time=50;
 let timerID;
 function DecreaseTimer(){
   timerID = setTimeout(DecreaseTimer,1000)
@@ -66,7 +83,6 @@ function DecreaseTimer(){
   }
 }
 }
-DecreaseTimer();
 
 //Tao nhan vat Player va Enemy
 const Player = new Fighter({
@@ -210,12 +226,73 @@ Player.draw();
 Enemy.draw();
 console.log(Player);
 
+//MUSIC
 const soundArr=["hit.mp3","jump.mp3","run.mp3","Slash.mp3"];
-
+var countsound=0;
 function PlaySound(n){
   let audio = new Audio(`/sound/`+soundArr[n]);
   audio.play();
 }
+let soundButton=document.getElementById('soundButton');
+let mute=document.querySelector('.mute');
+let muted=document.querySelector('.muted');
+if(countsound==0){
+  muted.classList.add('disblock');
+}
+function PlayBSound(n){
+  if(n==0){
+    document.getElementById("audioOne").pause();
+    document.getElementById("audioTwo").pause();
+    muted.classList.add('disblock');
+    mute.classList.remove('disblock');
+  }
+  else if(n==1){
+    document.getElementById("audioTwo").pause();
+    document.getElementById("audioOne").play();
+    mute.classList.add('disblock');
+    muted.classList.remove('disblock');
+  }else{
+    document.getElementById("audioTwo").play();
+    document.getElementById("audioOne").pause();
+    mute.classList.add('disblock');
+    muted.classList.remove('disblock');
+  }
+}
+
+
+function resetData(){
+  Player.position.y=Enemy.position.y=100;
+  Player.velocity.y=Enemy.velocity.y=5;
+  Player.position.x=100;
+  Enemy.position.x= canvas.width - 100;
+  Player.health=100;
+  Enemy.health=100;
+  Player.death=false;
+  Enemy.death=false;
+  time=50;
+  document.querySelector(".playerHP").style.width = '99%';
+  document.querySelector(".enemyHP").style.width = '99%';
+}
+soundButton.addEventListener("click",function(){
+  if(countsound!=2){
+    countsound++;
+  }else{
+    countsound=0;
+  }
+  PlayBSound(countsound);
+})
+
+//Menu
+var menu=document.querySelector('.menu');
+if(menu){
+  menu.classList.add('disflex');
+}
+var buttonPlay=document.querySelector('.button-play');
+
+buttonPlay.addEventListener("click",()=>{
+  menu.classList.remove('disflex');
+  DecreaseTimer();
+})
 //Call back de load lai man hinh tao hieu ung dong
 function animate() {
   window.requestAnimationFrame(animate);
@@ -240,10 +317,18 @@ function animate() {
   }
   //Player keys
   if (keys.a.pressed && Player.lastkey=='a' ) {
-    Player.velocity.x = -2;
+    if(Player.position.x<98){
+      Player.velocity.x=0;
+    }else{
+      Player.velocity.x = -2;
+    }
     Player.switchsprites('run');
   } else if (keys.d.pressed && Player.lastkey=='d') {
-    Player.velocity.x = 2;
+    if(Player.position.x>canvas.width-100){
+      Player.velocity.x=0;
+    }else{
+      Player.velocity.x =2;
+    }
     Player.switchsprites('run');
   }else{
     Player.switchsprites('idle')
@@ -251,10 +336,18 @@ function animate() {
 
   //Enemy keys
   if (keys.ArrowLeft.pressed && Enemy.lastkey=='ArrowLeft' ) {
-    Enemy.velocity.x = -2;
+    if(Enemy.position.x<80){
+      Enemy.velocity.x=0;
+    }else{
+      Enemy.velocity.x =-2;
+    }
     Enemy.switchsprites('run');
   } else if (keys.ArrowRight.pressed && Enemy.lastkey=='ArrowRight') {
-    Enemy.velocity.x = 2;
+    if(Enemy.position.x>canvas.width-100){
+      Enemy.velocity.x=0;
+    }else{
+      Enemy.velocity.x =2;
+    }
     Enemy.switchsprites('run');
   }else{
     Enemy.switchsprites('idle')
@@ -416,7 +509,7 @@ window.addEventListener("keyup", (event) => {
 });
 
 ///website
-document.getElementById('hearth').addEventListener=("click", ()=>{
+document.getElementById('hearth').addEventListener=("onclick", ()=>{
   alert("Thank you so much!");
   console.log("ok cam on");
 })
