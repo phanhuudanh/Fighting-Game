@@ -1,6 +1,5 @@
 *{
     box-sizing: border-box;
-    background-color: rgb(179, 176, 169);
     margin:0;
     padding:0;
 }
@@ -216,8 +215,9 @@ footer:hover{
 .baudio{
     display: none;
 }
-.body{
-    position: relative;
+body{
+    background-image: url('backgroundWebsite.png');
+    background-size: cover;
 }
 .menu{
     background-image: url(Samurai.png);
@@ -236,7 +236,7 @@ footer:hover{
 }
 .button-play{
     padding:30px 100px;
-    margin-top:80px;
+    margin-top:135px;
     background-color: transparent;
     border:none;
     cursor: pointer;
